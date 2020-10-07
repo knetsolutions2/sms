@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: students
+spec:
+  selector:
+    matchLabels:
+      app: students
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: students
+    spec:
+      containers:
+      - name: students
+        image: sureshkvl/students:1.2
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schools
+spec:
+  selector:
+    matchLabels:
+      app: schools
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: schools
+    spec:
+      containers:
+      - name: schools
+        image: sureshkvl/school:1.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schools
+spec:
+  selector:
+    app: schools
+  ports:
+    - name: http
+      port: 5001
+      nodePort: 30081
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: students
+spec:
+  selector:
+    app: students
+  ports:
+    - name: http
+      port: 5000
+  type: ClusterIP
+---
