@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: students
   replicas: 1
-  template: 
+  template:
     metadata:
       labels:
         app: students
@@ -35,12 +35,73 @@ spec:
     spec:
       containers:
       - name: schools
-        image: sureshkvl/school:1.2
+        image: sureshkvl/schools:1.2
         imagePullPolicy: Always
         ports:
-        - containerPort: 5001
-
+        - containerPort: 5000
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external
+spec:
+  selector:
+    matchLabels:
+      app: external
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: external
+    spec:
+      containers:
+      - name: external
+        image: sureshkvl/external:1.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigw
+spec:
+  selector:
+    matchLabels:
+      app: apigw
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apigw
+    spec:
+      containers:
+      - name: apigw
+        image: sureshkvl/apigw:1.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testpod
+spec:
+  selector:
+    matchLabels:
+      app: testpod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: testpod
+    spec:
+      containers:
+      - name: students
+        image: sureshkvl/apigw:1.0
+        imagePullPolicy: Always
+---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -50,9 +111,8 @@ spec:
     app: schools
   ports:
     - name: http
-      port: 5001
-      nodePort: 30081
-  type: NodePort
+      port: 5000
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -65,4 +125,29 @@ spec:
     - name: http
       port: 5000
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external
+spec:
+  selector:
+    app: external
+  ports:
+    - name: http
+      port: 5000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigw
+spec:
+  selector:
+    app: apigw
+  ports:
+    - name: http
+      port: 8080
+      nodePort: 30010
+  type: NodePort
 ---

@@ -43,7 +43,7 @@ def list_kv():
 def generate_uuid():
     return uuid.uuid4()
 
-# 
+#
 stud_id = 0
 def generate_id():
     global stud_id
@@ -83,9 +83,6 @@ def get_students():
 
 
 
-
-
-
 # Rest Server
 app = Flask(__name__)
 
@@ -121,7 +118,7 @@ def putschool(id):
 
 
 def main():
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
 
 
 if __name__ == '__main__':

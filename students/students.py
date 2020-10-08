@@ -38,7 +38,7 @@ def list_kv():
 def generate_uuid():
     return uuid.uuid4()
 
-# 
+#
 stud_id = 0
 def generate_id():
     global stud_id

@@ -1,5 +1,5 @@
-REPOSITORY ?= schools
-VERSION    ?= 1.2
+REPOSITORY ?= apigw
+VERSION    ?= 1.1
 
 
 REGISTRY   ?= sureshkvl

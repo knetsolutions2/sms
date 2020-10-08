@@ -1,5 +1,5 @@
-REPOSITORY ?= schools
-VERSION    ?= 1.2
+REPOSITORY ?= testpod
+VERSION    ?= 1.0
 
 
 REGISTRY   ?= sureshkvl

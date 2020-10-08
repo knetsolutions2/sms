@@ -1,4 +1,4 @@
-REPOSITORY ?= schools
+REPOSITORY ?= external
 VERSION    ?= 1.2
 
 
